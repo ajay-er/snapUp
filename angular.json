@@ -28,6 +28,7 @@
               "src/styles.css"
             ],
             "scripts": []
+            
           },
           "configurations": {
             "production": {
@@ -58,6 +59,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "browserTarget": "snapUp:build:production"

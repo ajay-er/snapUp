@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -7,13 +9,23 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
+  constructor(private http: HttpClient) { }
+
   credentials = {
     email: '',
     password:''
   }
 
-  login() {
-    console.log(this.credentials);
+  async login() {
+    try {
+      
+      const observable$ = this.http.post('/api/auth/login', this.credentials);
+      const response = await firstValueFrom(observable$);
+      console.log(response);
+      
+    } catch (error) {
+      
+    }
   }
 
 }
