@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs';
+import IUser from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -9,13 +9,13 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  constructor(private http: HttpClient) {}
+  constructor(private auth:AuthService) {}
 
   inSubmission = false;
 
-  name = new FormControl('', [Validators.required, Validators.minLength(3)]);
-  email = new FormControl('', [Validators.required, Validators.email]);
-  age = new FormControl('', [
+  name = new FormControl<string | null>(null, [Validators.required, Validators.minLength(3)]);
+  email = new FormControl<string | null>(null, [Validators.required, Validators.email]);
+  age = new FormControl<number | null>(null, [
     Validators.required,
     Validators.min(17),
     Validators.max(120),
@@ -24,8 +24,8 @@ export class RegisterComponent {
     Validators.required,
     Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm),
   ]);
-  confirmPassword = new FormControl('', [Validators.required]);
-  phoneNumber = new FormControl('', [
+  confirmPassword = new FormControl<string | null>(null, [Validators.required]);
+  phoneNumber = new FormControl<number | null>(null, [
     Validators.required,
     Validators.minLength(10),
     Validators.maxLength(10),
@@ -52,15 +52,11 @@ export class RegisterComponent {
     this.inSubmission = true;
 
     try {
-      const observable$ = this.http.post(
-        '/api/auth/signup',
-        this.registerForm.value,
-      );
-      const responseData: any = await lastValueFrom(observable$);
+      
+      await this.auth.createUser(this.registerForm.value as IUser);
 
-      localStorage.setItem('authToken', responseData.token);
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
 
       if (error.error?.message) {
         this.alertMsg = error.error.message;

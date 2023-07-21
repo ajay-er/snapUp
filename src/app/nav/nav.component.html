@@ -8,10 +8,16 @@
       <!-- Primary Navigation -->
       <ul class="flex flex-row mt-1 ">
         <!-- Navigation Links -->
-        <li>
+        <li *ngIf="!(auth.isAuthenticated$ | async); else authLinks ">
           <a class="px-2" href="#" (click)="openModal($event)">
             Login / Register</a>
         </li>
+
+        <ng-template #authLinks>
+          <li>
+            <a class="px-2" href="#">Profile</a>
+          </li>
+        </ng-template>
         <!-- <li >
           <a class="px-2 " href="#">Manage</a>
         </li>
@@ -23,10 +29,10 @@
         </li> -->
       
       </ul>
-      <div class="ml-auto">
+      <div class="ml-auto" *ngIf="auth.isAuthenticated$ | async">
         <ul class="flex flex-row mt-1">
           <li>
-            <!-- <a class="px-2" href="#">Logout</a> -->
+            <a class="px-2" href="#" (click)="logout()">Logout</a>
           </li>
         </ul>
       </div>
