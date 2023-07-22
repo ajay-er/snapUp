@@ -8,14 +8,15 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./nav.component.css'],
 })
 export class NavComponent {
-  constructor(public modal: ModalService, public auth: AuthService) {}
+  constructor(
+    public modal: ModalService,
+    public auth: AuthService,
+  ) {}
 
   openModal($event: Event) {
     $event.preventDefault();
     this.modal.toggleModal('auth');
   }
 
-  logout() {
-    this.auth.logout();
-  }
+  
 }

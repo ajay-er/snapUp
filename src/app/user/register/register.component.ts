@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import IUser from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { RegisterValidators } from '../validators/register-validators';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -20,7 +20,7 @@ export class RegisterComponent {
     Validators.min(17),
     Validators.max(120),
   ]);
-  password = new FormControl('', [
+  password = new FormControl<string | null>(null, [
     Validators.required,
     Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm),
   ]);
@@ -42,7 +42,7 @@ export class RegisterComponent {
     password: this.password,
     confirmPassword: this.confirmPassword,
     phoneNumber: this.phoneNumber,
-  });
+  },[RegisterValidators.match('password','confirmPassword')]);
 
   async register() {
     this.showAlert = true;

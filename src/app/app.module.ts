@@ -7,17 +7,25 @@ import { AppComponent } from './app.component';
 import { UserModule } from './user/user.module';
 import { NavComponent } from './nav/nav.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import { ProfileComponent } from './profile/profile.component';
+import { VideoModule } from './video/video.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent
+    NavComponent,
+    HomeComponent,
+    AboutComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     UserModule,
-    HttpClientModule
+    HttpClientModule,
+    VideoModule
   ],
   providers: [  {
     provide: HTTP_INTERCEPTORS,

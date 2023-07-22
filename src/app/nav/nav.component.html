@@ -2,37 +2,36 @@
 <header id="header" class="bg-secondary">
   <nav class="container mx-auto flex justify-start items-center py-8 px-4">
     <!-- App Name -->
-    <a class="text-3xl text-indigo-400 font-bold uppercase mr-4" href="index.html">SNAPUP</a>
+    <a class="text-3xl text-indigo-400 font-bold uppercase mr-4" routerLink="/">SNAPUP</a>
 
     <div class="flex flex-grow items-center ">
       <!-- Primary Navigation -->
       <ul class="flex flex-row mt-1 ">
         <!-- Navigation Links -->
-        <li *ngIf="!(auth.isAuthenticated$ | async); else authLinks ">
-          <a class="px-2" href="#" (click)="openModal($event)">
-            Login / Register</a>
+        <li>
+          <a class="px-2" routerLink="/" routerLinkActive="text-indigo-400" [routerLinkActiveOptions]="{exact:true}">Home</a>
+        </li>
+        <li>
+          <a class="px-2" routerLink="/about"
+          routerLinkActive="text-indigo-400" [routerLinkActiveOptions]="{exact:true}">About</a>
         </li>
 
         <ng-template #authLinks>
           <li>
-            <a class="px-2" href="#">Profile</a>
+            <a class="px-2" routerLink="/profile" routerLinkActive="text-indigo-400" [routerLinkActiveOptions]="{exact:true}">Profile</a>
           </li>
         </ng-template>
-        <!-- <li >
-          <a class="px-2 " href="#">Manage</a>
-        </li>
-        <li>
-          <a class="px-2" href="#">Upload</a>
-        </li>
-        <li>
-          <a class="px-2" href="about.html">About</a>
-        </li> -->
       
       </ul>
-      <div class="ml-auto" *ngIf="auth.isAuthenticated$ | async">
+      <div class="ml-auto" >
         <ul class="flex flex-row mt-1">
-          <li>
-            <a class="px-2" href="#" (click)="logout()">Logout</a>
+          <li *ngIf="!(auth.isAuthenticated$ | async); else authLinks ">
+            <a class="px-2" href="#" (click)="openModal($event)">
+              Login / Register
+            </a>
+          </li>
+          <li *ngIf="auth.isAuthenticated$ | async">
+            <a class="px-2" href="#" (click)="auth.logout($event)">Logout</a>
           </li>
         </ul>
       </div>
