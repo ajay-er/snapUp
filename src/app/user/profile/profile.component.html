@@ -1,0 +1,9 @@
+<div class="min-h-screen bg-cyan-700 flex flex-col justify-center items-center">
+    <label for="fileInput" class="w-80 rounded-md cursor-pointer shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 duration-500">
+        <img #imageElement id="previewImage" [src]="imageValue" alt="" />
+        <div class="p-4 bg-white">
+            <h1 class="text-blue-600 mt-4 font-black text-2xl">{{username}}</h1>
+        </div>
+    </label>
+    <input (change)="onChange($event)" type="file" id="fileInput" class="hidden" accept="image/*" />
+</div>

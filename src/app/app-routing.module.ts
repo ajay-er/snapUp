@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent } from './user/profile/profile.component';
+import { ClipComponent } from './clip/clip.component';
 
 const routes: Routes = [
   {
@@ -15,7 +16,14 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    component:ProfileComponent
+    component: ProfileComponent,
+    data: {
+      authOnly:true
+    },
+  },
+  {
+    path: 'clip/:id',
+    component:ClipComponent
   }
 ];
 

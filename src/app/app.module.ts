@@ -9,8 +9,8 @@ import { NavComponent } from './nav/nav.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { ProfileComponent } from './profile/profile.component';
 import { VideoModule } from './video/video.module';
+import { ClipComponent } from './clip/clip.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { VideoModule } from './video/video.module';
     NavComponent,
     HomeComponent,
     AboutComponent,
-    ProfileComponent
+    ClipComponent
   ],
   imports: [
     BrowserModule,
