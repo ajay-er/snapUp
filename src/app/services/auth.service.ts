@@ -20,10 +20,10 @@ interface RouteData {
 export class AuthService {
   private isAuthenticatedSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
-  
+
   public isAuthenticated$: Observable<boolean> =
     this.isAuthenticatedSubject.asObservable();
-  
+
   public isAuthenticatedWithDelay$: Observable<boolean>;
 
   public redirect = false;
@@ -47,7 +47,7 @@ export class AuthService {
         map((e) => this.route.firstChild),
         switchMap((route) => route?.data ?? of({} as RouteData))
       )
-      .subscribe(data => {
+      .subscribe((data) => {
         this.redirect = data?.authOnly ?? false;
       });
   }
@@ -58,10 +58,11 @@ export class AuthService {
 
     this.setTokenToLocalStorage(response?.token);
 
+    localStorage.setItem('profileImage', response.user.imageUrl);
+
     this.setCurrentUser({ id: response.user._id, name: response.user.name });
 
     this.isAuthenticatedSubject.next(true);
-    this.checkTokenExpiration();
   }
 
   public async loginUser(userData: { email: string; password: string }) {
@@ -72,7 +73,6 @@ export class AuthService {
     this.setCurrentUser({ id: response.user._id, name: response.user.name });
 
     this.isAuthenticatedSubject.next(true);
-    this.checkTokenExpiration();
   }
 
   public async logout($event?: Event) {
@@ -89,11 +89,16 @@ export class AuthService {
     }
   }
 
-  public async updateProfile(formdata: FormData) {
+  public async updateProfile(selectedFile: File) {
     try {
-      const observable$ = this.http.put('/api/user/upload-profile', formdata);
+      const formData = new FormData();
+      formData.append('image', selectedFile);
+      const observable$ = this.http.put('/api/user/upload-profile', formData);
       const response: any = await firstValueFrom(observable$);
-      console.log(response);
+
+      if (response?.imageUrl) {
+        localStorage.setItem('profileImage', response.imageUrl);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -124,7 +129,9 @@ export class AuthService {
   //set current user
   setCurrentUser(data?: ICurrentUser) {
     if (data) {
-      localStorage.setItem('currentUser', data.name);
+      localStorage.setItem('userName', data.name);
+    } else {
+      localStorage.removeItem('userName');
     }
 
     if (localStorage.getItem('authToken')) {

@@ -30,6 +30,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     HttpClientModule,
     VideoModule,
     AppRoutingModule,
+
   ],
   providers: [
     {
