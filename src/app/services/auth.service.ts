@@ -20,8 +20,10 @@ interface RouteData {
 export class AuthService {
   private isAuthenticatedSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
+  
   public isAuthenticated$: Observable<boolean> =
     this.isAuthenticatedSubject.asObservable();
+  
   public isAuthenticatedWithDelay$: Observable<boolean>;
 
   public redirect = false;
@@ -117,10 +119,6 @@ export class AuthService {
 
   private setTokenToLocalStorage(token: string) {
     localStorage.setItem('authToken', token);
-  }
-
-  public isLoggedIn() {
-    return !!localStorage.getItem('authToken');
   }
 
   //set current user
