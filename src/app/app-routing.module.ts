@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { ClipComponent } from './clip/clip.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -19,11 +20,15 @@ const routes: Routes = [
     component: ProfileComponent,
     data: {
       authOnly:true
-    },
+    }
   },
   {
     path: 'clip/:id',
     component:ClipComponent
+  },
+  {
+    path: "**",
+    component:NotFoundComponent
   }
 ];
 

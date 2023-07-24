@@ -45,7 +45,7 @@ export class AuthService {
         map((e) => this.route.firstChild),
         switchMap((route) => route?.data ?? of({} as RouteData))
       )
-      .subscribe((data) => {
+      .subscribe(data => {
         this.redirect = data?.authOnly ?? false;
       });
   }
@@ -88,11 +88,8 @@ export class AuthService {
   }
 
   public async updateProfile(formdata: FormData) {
-    console.log(formdata);
-
     try {
       const observable$ = this.http.put('/api/user/upload-profile', formdata);
-
       const response: any = await firstValueFrom(observable$);
       console.log(response);
     } catch (e) {
