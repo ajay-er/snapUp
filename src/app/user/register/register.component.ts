@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import IUser from 'src/app/models/user.model';
+import { Component, Input } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { RegisterValidators } from '../validators/register-validators';
+import { AdminService } from 'src/app/services/admin.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  constructor(private auth:AuthService) {}
+  constructor(private auth: AuthService, private adminAuth: AdminService) { }
+  
+  @Input() registrationMethod!: 'admin' | 'user'; 
 
   inSubmission = false;
 
@@ -52,8 +55,11 @@ export class RegisterComponent {
     this.inSubmission = true;
 
     try {
-      
-      await this.auth.createUser(this.registerForm.value as IUser);
+      if (this.registrationMethod === 'admin') {
+        await this.adminAuth.createUser(this.registerForm.value as IUser);
+      } else if (this.registrationMethod === 'user') {
+        await this.auth.createUser(this.registerForm.value as IUser);
+      }
 
     } catch (error: any) {
       console.error(error);

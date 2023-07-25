@@ -7,20 +7,23 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
+import { AdduserComponent } from './adduser/adduser.component';
+import { UserModule } from '../user/user.module';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
     DashboardComponent,
-    UpdateUserComponent
+    UpdateUserComponent,
+    AdduserComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     FormsModule,
-    SharedModule
-    
+    SharedModule,
+    UserModule
   ]
 })
 export class AdminModule { }

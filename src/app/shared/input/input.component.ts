@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -12,5 +12,8 @@ export class InputComponent {
   @Input() type = 'text';
   @Input() placeholder = '';
   @Input() format = '';
+
+  @Input() value = '';
+  @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
 
 }

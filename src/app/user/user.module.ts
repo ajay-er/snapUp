@@ -15,12 +15,7 @@ import { ProfileComponent } from './profile/profile.component';
     RegisterComponent,
     ProfileComponent,
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    ReactiveFormsModule,
-    FormsModule,
-  ],
-  exports: [AuthModalComponent],
+  imports: [CommonModule, SharedModule, ReactiveFormsModule, FormsModule],
+  exports: [AuthModalComponent, RegisterComponent],
 })
 export class UserModule {}

@@ -1,1 +1,35 @@
-<p>update-user works!</p>
+<div class="p-10">
+    <!-- Card start -->
+    <div class="max-w-sm mx-auto bg-gray rounded-lg overflow-hidden shadow-lg">
+        <div class="text-center my-4 relative">
+            <!-- Pen icon -->
+                <img  class="h-32 w-32 rounded-full border-4 border-white mx-auto my-4 cursor-pointer" [src]="imageUrl"
+                    alt="">
+                    <app-alert *ngIf="showAlert" [color]="alertColor">
+                        {{alertMsg}}
+                      </app-alert>
+            <div class="mb-3 p-2">
+            
+                <label class="inline-block mb-2">Name</label>
+                <app-input placeholder="Enter name"  (valueChange)="userName= $event.target?.value"  [value]="userName"></app-input>
+
+            </div>
+            <!-- Email -->
+            <div class="mb-3 p-2">
+                <label class="inline-block mb-2">Email</label>
+                <app-input type="email" placeholder="Enter Email"  (valueChange)="userEmail= $event.target?.value"  [value]="userEmail"></app-input>
+            </div>
+            <!-- Age -->
+            <div class="mb-3 p-2">
+                <label class="inline-block mb-2">Age</label>
+                <app-input type="number" placeholder="Enter Age"  (valueChange)="userAge= $event.target?.value" [value]="userAge"></app-input>
+            </div>
+            <button 
+            [disabled]="inSubmission"
+             type="submit" class="block w-full p-2 bg-indigo-400 text-white  rounded transition
+            hover:bg-indigo-500 disabled:opacity-50 disabled:bg-indigo-400" (click)="onSubmit($event)">
+                Update
+            </button>
+        </div>
+    </div>
+</div>
