@@ -1,6 +1,10 @@
-  <app-nav></app-nav>
+<app-nav *ngIf="!(adminAuth.isAdminAuthenticated$ | async); else adminNavbar"></app-nav>
 
-  <router-outlet></router-outlet>
-  
+<ng-template #adminNavbar>
+  <app-admin-nav></app-admin-nav>
+</ng-template>
 
-  <app-auth-modal *ngIf="!(auth.isAuthenticatedWithDelay$ | async)"></app-auth-modal>
+
+<router-outlet></router-outlet>
+
+<app-auth-modal *ngIf="!(auth.isAuthenticatedWithDelay$ | async)"></app-auth-modal>

@@ -1,4 +1,4 @@
-import { NgModule, inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
@@ -6,7 +6,7 @@ import { ProfileComponent } from './user/profile/profile.component';
 import { ClipComponent } from './clip/clip.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuard } from './services/auth.guard';
-
+import { AdminRoutingModule } from './admin/admin-routing.module';
 
 const routes: Routes = [
   {
@@ -15,24 +15,27 @@ const routes: Routes = [
   },
   {
     path: 'about',
-    component:AboutComponent
+    component: AboutComponent,
   },
   {
     path: 'profile',
     component: ProfileComponent,
     data: {
-      authOnly:true
+      authOnly: true,
     },
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'clip/:id',
-    component:ClipComponent
+    component: ClipComponent,
   },
   {
-    path: "**",
-    component:NotFoundComponent
-  }
+    path: 'admin',
+    redirectTo: '/admin/login', pathMatch: 'full'  },
+  {
+    path: '**',
+    component: NotFoundComponent,
+  },
 ];
 
 @NgModule({

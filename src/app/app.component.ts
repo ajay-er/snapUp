@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
+import { AdminService } from './services/admin.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,6 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   title = 'snapUp';
 
-  constructor(public auth:AuthService) {}
+  constructor(public auth:AuthService,public adminAuth:AdminService) {}
 
 }

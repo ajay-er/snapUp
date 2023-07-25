@@ -12,6 +12,8 @@ import { AboutComponent } from './about/about.component';
 import { VideoModule } from './video/video.module';
 import { ClipComponent } from './clip/clip.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AdminModule } from './admin/admin.module';
+import { AdminNavComponent } from './admin-nav/admin-nav.component';
 
 
 
@@ -23,14 +25,15 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AboutComponent,
     ClipComponent,
     NotFoundComponent,
+    AdminNavComponent,
   ],
   imports: [
     BrowserModule,
     UserModule,
     HttpClientModule,
     VideoModule,
+    AdminModule,
     AppRoutingModule,
-
   ],
   providers: [
     {

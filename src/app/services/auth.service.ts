@@ -14,6 +14,7 @@ interface ICurrentUser {
 interface RouteData {
   authOnly?: boolean;
 }
+
 @Injectable({
   providedIn: 'root',
 })

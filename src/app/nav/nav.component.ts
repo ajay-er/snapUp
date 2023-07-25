@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalService } from '../services/modal.service';
 import { AuthService } from '../services/auth.service';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-nav',
@@ -11,6 +12,7 @@ export class NavComponent {
   constructor(
     public modal: ModalService,
     public auth: AuthService,
+    public adminAuth:AdminService
   ) {}
 
   openModal($event: Event) {
