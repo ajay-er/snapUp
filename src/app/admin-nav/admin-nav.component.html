@@ -15,7 +15,7 @@
             <a class="px-2" routerLink="/admin/adduser" routerLinkActive="text-indigo-400" [routerLinkActiveOptions]="{exact:true}">Add user</a>
           </li>
           <li>
-            <a class="px-2" *ngIf="adminAuth.isAdminAuthenticated$ | async" (click)="adminAuth.logout($event)">Logout</a>
+            <a href="#" class="px-2" *ngIf="adminAuth.isAdminAuthenticated$ | async" (click)="adminAuth.logout($event)">Logout</a>
           </li>
         </ul>
         

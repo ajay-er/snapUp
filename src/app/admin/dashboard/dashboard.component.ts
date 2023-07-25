@@ -27,8 +27,8 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.loading = true;
-    this.adminAuth.getUsers().subscribe((res) => {
-      this.users = res.users;
+    this.adminAuth.users$.subscribe((users: any) => {
+      this.users = users;
       console.log(this.users);
 
       this.loading = false;
@@ -41,6 +41,8 @@ export class DashboardComponent {
 
     this.adminAuth.deleteUser(id).subscribe({
       next: (res: any) => {
+        this.markedForDeletion = false;
+
         console.log(res);
         const index = this.users.findIndex(user => user._id === id);
         if (index !== -1) {
