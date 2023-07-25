@@ -1,35 +1,47 @@
 <div class="p-10">
     <!-- Card start -->
     <div class="max-w-sm mx-auto bg-gray rounded-lg overflow-hidden shadow-lg">
-        <div class="text-center my-4 relative">
+        <div class=" my-4 relative">
             <!-- Pen icon -->
-                <img  class="h-32 w-32 rounded-full border-4 border-white mx-auto my-4 cursor-pointer" [src]="imageUrl"
-                    alt="">
-                    <app-alert *ngIf="showAlert" [color]="alertColor">
-                        {{alertMsg}}
-                      </app-alert>
-            <div class="mb-3 p-2">
-            
-                <label class="inline-block mb-2">Name</label>
-                <app-input placeholder="Enter name"  (valueChange)="userName= $event.target?.value"  [value]="userName"></app-input>
+            <img class="h-32 w-32 rounded-full border-4 border-white mx-auto my-4 cursor-pointer" [src]="imageUrl" alt="">
+            <app-alert *ngIf="showAlert" [color]="alertColor">{{alertMsg}}</app-alert>
 
-            </div>
-            <!-- Email -->
-            <div class="mb-3 p-2">
-                <label class="inline-block mb-2">Email</label>
-                <app-input type="email" placeholder="Enter Email"  (valueChange)="userEmail= $event.target?.value"  [value]="userEmail"></app-input>
-            </div>
-            <!-- Age -->
-            <div class="mb-3 p-2">
-                <label class="inline-block mb-2">Age</label>
-                <app-input type="number" placeholder="Enter Age"  (valueChange)="userAge= $event.target?.value" [value]="userAge"></app-input>
-            </div>
-            <button 
-            [disabled]="inSubmission"
-             type="submit" class="block w-full p-2 bg-indigo-400 text-white  rounded transition
-            hover:bg-indigo-500 disabled:opacity-50 disabled:bg-indigo-400" (click)="onSubmit($event)">
-                Update
-            </button>
+            <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+
+                <div class="mb-3 p-2">
+                    <label class="inline-block mb-2">Name</label>
+                    <input required #name="ngModel" [(ngModel)]="userName" name="name" class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400" type="text" placeholder="Enter name" [value]="userName" minlength="3">
+                    <p *ngIf="name.errors && (name.touched || name.dirty)" class="text-red-400">
+                        <span *ngIf="name.errors?.['required']">Name is required.</span>
+                        <span *ngIf="name.errors?.['minlength']">Name must be at least 3 characters long.</span>
+                    </p>
+                </div>
+                
+                <!-- Email -->
+                <div class="mb-3 p-2">
+                    <label class="inline-block mb-2">Email</label>
+                    <input #email="ngModel" [(ngModel)]="userEmail" name="email" required class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400" type="email" placeholder="Enter Email" [value]="userEmail" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" />
+                    <p *ngIf="email.errors && (email.touched || email.dirty)" class="text-red-400">
+                        <span *ngIf="email.errors?.['required']">Email is required.</span>
+                        <span *ngIf="email.errors?.['pattern']">Invalid email format.</span>
+                    </p>
+                </div>
+                
+                <!-- Age -->
+                <div class="mb-3 p-2">
+                    <label class="inline-block mb-2">Age</label>
+                    <input required #age="ngModel" [(ngModel)]="userAge" name="age" class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400" type="number" placeholder="Enter Age" [value]="userAge" min="17" max="120">
+                    <p *ngIf="age.errors && (age.touched || age.dirty)" class="text-red-400">
+                        <span *ngIf="age.errors?.['required']">Age is required.</span>
+                        <span *ngIf="age.errors?.['min']">Value is too low</span>
+                        <span *ngIf="age.errors?.['max']">Value is too high</span>
+                    </p>
+                </div>
+
+                <button [disabled]="loginForm.invalid || inSubmission" type="submit" class="block w-full p-2 bg-indigo-400 text-white rounded transition hover:bg-indigo-500 disabled:opacity-50 disabled:bg-indigo-400">
+                    Update
+                </button>
+            </form>
         </div>
     </div>
 </div>

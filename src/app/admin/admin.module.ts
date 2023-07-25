@@ -10,20 +10,19 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { AdduserComponent } from './adduser/adduser.component';
 import { UserModule } from '../user/user.module';
 
-
 @NgModule({
   declarations: [
     LoginComponent,
     DashboardComponent,
     UpdateUserComponent,
-    AdduserComponent
+    AdduserComponent,
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     FormsModule,
     SharedModule,
-    UserModule
-  ]
+    UserModule,
+  ],
 })
-export class AdminModule { }
+export class AdminModule {}

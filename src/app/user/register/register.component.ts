@@ -57,6 +57,7 @@ export class RegisterComponent {
     try {
       if (this.registrationMethod === 'admin') {
         await this.adminAuth.createUser(this.registerForm.value as IUser);
+
       } else if (this.registrationMethod === 'user') {
         await this.auth.createUser(this.registerForm.value as IUser);
       }

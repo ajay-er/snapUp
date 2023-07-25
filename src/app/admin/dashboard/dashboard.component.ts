@@ -8,6 +8,7 @@ interface IUser {
   phoneNumber: string;
   imageUrl: string;
   _id: string;
+  markedForDeletion?: boolean; 
 }
 
 @Component({
@@ -16,6 +17,7 @@ interface IUser {
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
+  markedForDeletion: boolean = false;
   constructor(private adminAuth: AdminService) {}
 
   loading = false;
@@ -28,8 +30,26 @@ export class DashboardComponent {
     this.adminAuth.getUsers().subscribe((res) => {
       this.users = res.users;
       console.log(this.users);
-      
+
       this.loading = false;
+    });
+  }
+
+  deleteUser($event: Event, id: any) {
+    $event.preventDefault();
+    this.markedForDeletion = true;
+
+    this.adminAuth.deleteUser(id).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        const index = this.users.findIndex(user => user._id === id);
+        if (index !== -1) {
+          this.users.splice(index, 1);
+        }
+      },
+      error: (error) => {
+        console.error(error);
+      },
     });
   }
 }

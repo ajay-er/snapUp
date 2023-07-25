@@ -39,9 +39,13 @@ export class AdminService {
   public async createUser(userData: IUser) {
     const observable$ = this.http.post('/api/auth/signup', userData);
     await firstValueFrom(observable$);
+
+    setTimeout(() => {
+      this.router.navigateByUrl('/admin/dashboard');
+    }, 2000);
   }
 
-  public  getUsers(): Observable<any> {
+  public getUsers(): Observable<any> {
     return this.http.get('/api/admin/getusers');
   }
 
@@ -50,7 +54,10 @@ export class AdminService {
   }
 
   public updateUserData(userData: any): Observable<any> {
-    return this.http.post(`/api/admin/updateuser`,userData);
+    return this.http.post(`/api/admin/updateuser`, userData);
   }
 
+  public deleteUser(id: any): Observable<any> {
+    return this.http.delete(`/api/admin/deleteuser/${id}`);
+  }
 }

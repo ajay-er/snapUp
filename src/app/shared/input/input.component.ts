@@ -13,7 +13,5 @@ export class InputComponent {
   @Input() placeholder = '';
   @Input() format = '';
 
-  @Input() value = '';
-  @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
 
 }

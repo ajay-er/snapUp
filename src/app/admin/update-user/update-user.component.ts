@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
@@ -10,7 +10,8 @@ import { AdminService } from 'src/app/services/admin.service';
 export class UpdateUserComponent {
   constructor(
     private adminAuth: AdminService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private route:Router
   ) {}
 
   inSubmission = false;
@@ -37,8 +38,7 @@ export class UpdateUserComponent {
   alertMsg = 'Please wait! user account is being updating.';
   alertColor = 'blue';
 
-  public async onSubmit($event: Event) {
-    $event.preventDefault();
+  public async onSubmit() {
 
     this.showAlert = true;
     this.alertMsg = 'Please wait! user account is being updating.';
@@ -56,9 +56,12 @@ export class UpdateUserComponent {
     this.adminAuth.updateUserData(userData).subscribe({
       next: (res) => {
         console.log(res);
-        
+
         this.alertMsg = 'Account updated successfully!';
         this.alertColor = 'green';
+
+        this.route.navigateByUrl('/admin/dashboard');
+        
       },
       error: (error) => {
         if (error.error?.message) {
@@ -72,7 +75,8 @@ export class UpdateUserComponent {
         return;
       },
     });
-
-    
   }
+
+  
+
 }
