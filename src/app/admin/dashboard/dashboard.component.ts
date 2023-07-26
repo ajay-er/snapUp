@@ -28,6 +28,7 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.loading = true;
+    
     this.adminAuth.users$.subscribe((users: any) => {
       this.users = users;
       this.loading = false;

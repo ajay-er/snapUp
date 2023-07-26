@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, map } from 'rxjs';
 import IUser from '../models/user.model';
 import { AuthService } from './auth.service';
 
@@ -28,7 +28,14 @@ export class AdminService {
     this.isAdminAuthenticatedSubject.next(!!localStorage.getItem('adminToken'));
     this.isAdminAuthenticated$ =
       this.isAdminAuthenticatedSubject.asObservable();
-    this.getUsers();
+
+    this.isAdminAuthenticated$.pipe(
+      map((isAdmin) => {
+        if (isAdmin) {
+          this.getUsers();
+        }
+      })
+    ).subscribe();
   }
 
   public async loginUser(userData: { email: string; password: string }) {
@@ -71,7 +78,7 @@ export class AdminService {
 
   public getUsers() {
     this.http.get('/api/admin/getusers').subscribe((res: any) => {
-      this.usersSubject.next(res.users);
+      return this.usersSubject.next(res.users);
     });
   }
 
@@ -90,7 +97,6 @@ export class AdminService {
   public updateUsersSubject(updatedUser: any) {
     const currentUsers = this.usersSubject.getValue();
     const updatedUsers = currentUsers.map((user: any) => {
-      
       if (user._id === updatedUser._id) {
         return { ...user, ...updatedUser };
       } else {
@@ -100,3 +106,4 @@ export class AdminService {
     this.usersSubject.next(updatedUsers);
   }
 }
+export { IUser };
