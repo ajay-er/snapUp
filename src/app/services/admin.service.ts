@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 import IUser from '../models/user.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,12 @@ export class AdminService {
   public isAdminAuthenticated$: Observable<boolean> =
     this.isAdminAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private userSevice: AuthService
+  ) {
+    this.isAdminAuthenticatedSubject.next(!!localStorage.getItem('adminToken'));
     this.isAdminAuthenticated$ =
       this.isAdminAuthenticatedSubject.asObservable();
     this.getUsers();
@@ -28,9 +34,14 @@ export class AdminService {
   public async loginUser(userData: { email: string; password: string }) {
     const observable$ = this.http.post('/api/admin/login', userData);
     const response: any = await firstValueFrom(observable$);
-    console.log(response);
-    localStorage.setItem('authToken', response.token);
+    localStorage.setItem('adminToken', response.token);
+
+    if (this.userSevice.isAuthenticated$) {
+      this.userSevice.logout();
+    }
+
     this.isAdminAuthenticatedSubject.next(true);
+    this.getUsers();
     this.router.navigateByUrl('/admin/dashboard');
   }
 
@@ -38,22 +49,24 @@ export class AdminService {
     if ($event) {
       $event.preventDefault();
     }
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('adminToken');
     this.isAdminAuthenticatedSubject.next(false);
+    this.router.navigateByUrl('/');
   }
 
   public async createUser(userData: any) {
     const observable$ = this.http.post('/api/auth/signup', userData);
     await firstValueFrom(observable$);
 
-    userData.imageUrl = 'https://api.multiavatar.com/Binx Bond.png'
+    userData.imageUrl = 'https://api.multiavatar.com/Binx Bond.png';
 
-    this.usersSubject.next([...this.usersSubject.value, userData]);
+    // this.usersSubject.next([...this.usersSubject.value, userData]);
+
+    this.getUsers();
 
     setTimeout(() => {
       this.router.navigateByUrl('/admin/dashboard');
     }, 2000);
-
   }
 
   public getUsers() {
@@ -72,5 +85,10 @@ export class AdminService {
 
   public deleteUser(id: any): Observable<any> {
     return this.http.delete(`/api/admin/deleteuser/${id}`);
+  }
+
+  public updateUsersSubject(newUser: any) {
+    const currentUsers = this.usersSubject.getValue();
+    this.usersSubject.next([...currentUsers, newUser]);
   }
 }

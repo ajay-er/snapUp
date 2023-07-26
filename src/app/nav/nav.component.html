@@ -6,11 +6,31 @@
 
     <div class="flex flex-grow items-center">
       <!-- Primary Navigation -->
-      <ul class="flex flex-row mt-1 "> 
+      <ul class="flex flex-row mt-1 ">
         <!-- Navigation Links -->
+        <ng-template #userNavItems>
         <li>
-          <a class="px-2" routerLink="/" routerLinkActive="text-indigo-400" [routerLinkActiveOptions]="{exact:true}">Home</a>
+          <a class="px-2" routerLink="/" routerLinkActive="text-indigo-400"
+            [routerLinkActiveOptions]="{exact:true}">Home</a>
         </li>
+
+        <li>
+          <a class="px-2" routerLink="/about" routerLinkActive="text-indigo-400"
+            [routerLinkActiveOptions]="{exact:true}">About</a>
+        </li>
+      </ng-template>
+
+        <ng-container *ngIf="(adminAuth.isAdminAuthenticated$ | async);else userNavItems ">
+        <li >
+          <a class="px-2" routerLink="/admin/dashboard" routerLinkActive="text-indigo-400" [routerLinkActiveOptions]="{exact:true}">Dashboard</a>
+        </li>
+        <li>
+          <a class="px-2" routerLink="/admin/adduser" routerLinkActive="text-indigo-400" [routerLinkActiveOptions]="{exact:true}">Add user</a>
+        </li>
+      </ng-container>
+
+
+
         <!-- <li *ngIf="(auth.isAuthenticated$ | async)">
           <a class="px-2" routerLink="/manage"
           routerLinkActive="text-indigo-400" [routerLinkActiveOptions]="{exact:true}" [queryParams]="{sort:'1'}">Manage</a>
@@ -19,27 +39,28 @@
           <a class="px-2" routerLink="/upload"
           routerLinkActive="text-indigo-400" [routerLinkActiveOptions]="{exact:true}">Upload</a>
         </li> -->
-        <li>
-          <a class="px-2" routerLink="/about"
-          routerLinkActive="text-indigo-400" [routerLinkActiveOptions]="{exact:true}">About</a>
-        </li>
 
-        <ng-template #authLinks>
-          <li>
-            <a class="px-2" routerLink="/profile" routerLinkActive="text-indigo-400" [routerLinkActiveOptions]="{exact:true}">Profile</a>
-          </li>
-        </ng-template>
-      
       </ul>
-      <div class="ml-auto" >
+      <div class="ml-auto">
         <ul class="flex flex-row mt-1">
-          <li *ngIf="!(auth.isAuthenticated$ | async); else authLinks ">
-            <a class="px-2" href="#" (click)="openModal($event)">
-              Login / Register
-            </a>
-          </li>
+          <ng-container *ngIf="!(adminAuth.isAdminAuthenticated$ | async)">
+            <li *ngIf="!(auth.isAuthenticated$ | async); else authLinks ">
+              <a class="px-2" href="#" (click)="openModal($event)">
+                Login / Register
+              </a>
+            </li>
+            <ng-template #authLinks>
+              <li>
+                <a class="px-2" routerLink="/profile" routerLinkActive="text-indigo-400"
+                  [routerLinkActiveOptions]="{exact:true}">Profile</a>
+              </li>
+            </ng-template>
+          </ng-container>
           <li *ngIf="auth.isAuthenticated$ | async">
             <a class="px-2" href="#" (click)="auth.logout($event)">Logout</a>
+          </li>
+          <li *ngIf="adminAuth.isAdminAuthenticated$ | async">
+            <a class="px-2" href="#" (click)="adminAuth.logout($event)">Admin-Logout</a>
           </li>
         </ul>
       </div>

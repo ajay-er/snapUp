@@ -59,9 +59,10 @@ export class AuthService {
 
     this.setTokenToLocalStorage(response?.token);
 
-    localStorage.setItem('profileImage', response.user.imageUrl);
-
-    this.setCurrentUser({ id: response.user._id, name: response.user.name });
+    this.setCurrentUser({
+      name: response.user.name,
+      imageUrl: response.user.imageUrl,
+    });
 
     this.isAuthenticatedSubject.next(true);
   }
@@ -69,9 +70,17 @@ export class AuthService {
   public async loginUser(userData: { email: string; password: string }) {
     const observable$ = this.http.post('/api/auth/login', userData);
     const response: any = await firstValueFrom(observable$);
+
+    if (localStorage.getItem('adminToken')) {
+      localStorage.removeItem('adminToken');
+    }
+
     this.setTokenToLocalStorage(response?.token);
 
-    this.setCurrentUser({ id: response.user._id, name: response.user.name });
+    this.setCurrentUser({
+      name: response.user.name,
+      imageUrl: response.user.imageUrl,
+    });
 
     this.isAuthenticatedSubject.next(true);
   }
@@ -80,7 +89,6 @@ export class AuthService {
     if ($event) {
       $event.preventDefault();
     }
-    localStorage.removeItem('authToken');
     this.isAuthenticatedSubject.next(false);
 
     this.setCurrentUser();
@@ -107,7 +115,7 @@ export class AuthService {
 
   //common functions
   private checkTokenExpiration() {
-    const authToken = localStorage.getItem('authToken');
+    const authToken = localStorage.getItem('userToken');
     if (!authToken) {
       this.isAuthenticatedSubject.next(false);
       return;
@@ -124,21 +132,24 @@ export class AuthService {
   }
 
   private setTokenToLocalStorage(token: string) {
-    localStorage.setItem('authToken', token);
+    localStorage.setItem('userToken', token);
   }
 
   //set current user
-  setCurrentUser(data?: ICurrentUser) {
-    if (data) {
-      localStorage.setItem('userName', data.name);
-    } else {
-      localStorage.removeItem('userName');
-    }
-
-    if (localStorage.getItem('authToken')) {
-      this.currentUser$.next(data);
-    } else {
+  setCurrentUser(data?: any) {
+    if (!data) {
+      this.clearLocalStorage();
       this.currentUser$.next(null);
+      return;
     }
+    localStorage.setItem('userName', data.name);
+    localStorage.setItem('profileImage', data.imageUrl);
+    this.currentUser$.next(data);
+  }
+
+  private clearLocalStorage() {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('profileImage');
   }
 }

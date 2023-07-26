@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { AdduserComponent } from './adduser/adduser.component';
+import { AdminAuthGuard } from '../services/admin.guard';
 
 const routes: Routes = [
   {
@@ -13,14 +14,17 @@ const routes: Routes = [
   {
     path: 'admin/dashboard',
     component: DashboardComponent,
+    canActivate:[AdminAuthGuard]
   },
   {
     path: 'admin/edit/:id',
-    component:UpdateUserComponent
+    component:UpdateUserComponent,
+    canActivate:[AdminAuthGuard]
   },
   {
     path: 'admin/adduser',
-    component:AdduserComponent
+    component:AdduserComponent,
+    canActivate:[AdminAuthGuard]
   }
 ];
 

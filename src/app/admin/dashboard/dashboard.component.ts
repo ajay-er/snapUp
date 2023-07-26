@@ -16,6 +16,7 @@ interface IUser {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
+  
 export class DashboardComponent {
   markedForDeletion: boolean = false;
   constructor(private adminAuth: AdminService) {}
@@ -29,8 +30,6 @@ export class DashboardComponent {
     this.loading = true;
     this.adminAuth.users$.subscribe((users: any) => {
       this.users = users;
-      console.log(this.users);
-
       this.loading = false;
     });
   }

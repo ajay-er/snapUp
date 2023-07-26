@@ -13,7 +13,7 @@ import { VideoModule } from './video/video.module';
 import { ClipComponent } from './clip/clip.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AdminModule } from './admin/admin.module';
-import { AdminNavComponent } from './admin-nav/admin-nav.component';
+import { UnauthorizedInterceptor } from './interceptors/unauthorized.interceptor';
 
 
 
@@ -25,7 +25,6 @@ import { AdminNavComponent } from './admin-nav/admin-nav.component';
     AboutComponent,
     ClipComponent,
     NotFoundComponent,
-    AdminNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +40,7 @@ import { AdminNavComponent } from './admin-nav/admin-nav.component';
       useClass: TokenInterceptor,
       multi: true,
     },
+    { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })

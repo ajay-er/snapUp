@@ -1,9 +1,4 @@
-<app-nav *ngIf="!(adminAuth.isAdminAuthenticated$ | async); else adminNavbar"></app-nav>
-
-<ng-template #adminNavbar>
-  <app-admin-nav></app-admin-nav>
-</ng-template>
-
+<app-nav></app-nav>
 
 <router-outlet></router-outlet>
 
