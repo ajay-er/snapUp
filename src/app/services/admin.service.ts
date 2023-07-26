@@ -87,8 +87,16 @@ export class AdminService {
     return this.http.delete(`/api/admin/deleteuser/${id}`);
   }
 
-  public updateUsersSubject(newUser: any) {
+  public updateUsersSubject(updatedUser: any) {
     const currentUsers = this.usersSubject.getValue();
-    this.usersSubject.next([...currentUsers, newUser]);
+    const updatedUsers = currentUsers.map((user: any) => {
+      
+      if (user._id === updatedUser._id) {
+        return { ...user, ...updatedUser };
+      } else {
+        return user;
+      }
+    });
+    this.usersSubject.next(updatedUsers);
   }
 }

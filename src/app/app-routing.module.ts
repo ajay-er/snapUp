@@ -6,7 +6,6 @@ import { ProfileComponent } from './user/profile/profile.component';
 import { ClipComponent } from './clip/clip.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuard } from './services/auth.guard';
-import { AdminRoutingModule } from './admin/admin-routing.module';
 
 const routes: Routes = [
   {

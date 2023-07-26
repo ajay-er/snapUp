@@ -55,8 +55,7 @@ export class UpdateUserComponent {
 
     this.adminAuth.updateUserData(userData).subscribe({
       next: (res) => {
-        console.log(res);
-        this.adminAuth.updateUsersSubject(res.users);
+        this.adminAuth.updateUsersSubject(res.user);
         this.alertMsg = 'Account updated successfully!';
         this.alertColor = 'green';
 
