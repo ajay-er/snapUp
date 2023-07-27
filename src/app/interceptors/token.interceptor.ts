@@ -29,7 +29,9 @@ export class TokenInterceptor implements HttpInterceptor {
         if (userToken) {
           this.userAuth.logout();
         } else if (adminToken) {
+          console.log('why admin logout not working');
           this.adminAuth.logout();
+          console.log('why admin logout not working');
         }
       } else {
         request = request.clone({

@@ -16,7 +16,7 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
         error: (error: any) => {
           
           if (error.status === 401 || error.status === 403) {
-            this.router.navigate(['/admin/login']);
+            this.router.navigate(['/']);
           }
         }
       })

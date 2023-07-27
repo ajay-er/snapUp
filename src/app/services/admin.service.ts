@@ -23,7 +23,6 @@ export class AdminService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private userSevice: AuthService
   ) {
     this.isAdminAuthenticatedSubject.next(!!localStorage.getItem('adminToken'));
     this.isAdminAuthenticated$ =
@@ -41,11 +40,10 @@ export class AdminService {
   public async loginUser(userData: { email: string; password: string }) {
     const observable$ = this.http.post('/api/admin/login', userData);
     const response: any = await firstValueFrom(observable$);
-    localStorage.setItem('adminToken', response.token);
+    
+    window.localStorage.clear()
 
-    if (this.userSevice.isAuthenticated$) {
-      this.userSevice.logout();
-    }
+    localStorage.setItem('adminToken', response.token);
 
     this.isAdminAuthenticatedSubject.next(true);
     this.getUsers();
@@ -66,8 +64,6 @@ export class AdminService {
     await firstValueFrom(observable$);
 
     userData.imageUrl = 'https://api.multiavatar.com/Binx Bond.png';
-
-    // this.usersSubject.next([...this.usersSubject.value, userData]);
 
     this.getUsers();
 
