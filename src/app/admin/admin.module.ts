@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { AdduserComponent } from './adduser/adduser.component';
 import { UserModule } from '../user/user.module';
+import { PaginationComponent } from '../shared/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { UserModule } from '../user/user.module';
     DashboardComponent,
     UpdateUserComponent,
     AdduserComponent,
+    
   ],
   imports: [
     CommonModule,

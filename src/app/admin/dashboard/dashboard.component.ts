@@ -43,7 +43,6 @@ export class DashboardComponent {
       next: (res: any) => {
         this.markedForDeletion = false;
 
-        console.log(res);
         const index = this.users.findIndex(user => user._id === id);
         if (index !== -1) {
           this.users.splice(index, 1);
@@ -54,4 +53,13 @@ export class DashboardComponent {
       },
     });
   }
+
+  //pagination
+  currentPage: number = 1;
+  total: number = 100;
+  limit: number = 10;
+  changePage(page:number) {
+    this.currentPage = page;
+  }
+
 }

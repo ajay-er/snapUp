@@ -8,7 +8,7 @@ import { ModalService } from 'src/app/services/modal.service';
 })
 export class ModalComponent implements OnInit,OnDestroy{
   @Input() modalID = ''
-
+  
   constructor(public modal: ModalService, public element: ElementRef) { }
 
   ngOnDestroy(): void {

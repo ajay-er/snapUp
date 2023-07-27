@@ -10,6 +10,7 @@ import { AdminService } from './services/admin.service';
 export class AppComponent {
   title = 'snapUp';
 
-  constructor(public auth:AuthService,public adminAuth:AdminService) {}
+  constructor(public auth: AuthService, public adminAuth: AdminService) { }
+  
 
 }

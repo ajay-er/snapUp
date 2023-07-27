@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { AlertComponent } from './alert/alert.component';
 import { EventBlockerDirective } from './directives/event-blocker.directive';
+import { PaginationComponent } from './pagination/pagination.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { EventBlockerDirective } from './directives/event-blocker.directive';
     InputComponent,
     AlertComponent,
     EventBlockerDirective,
+    PaginationComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { EventBlockerDirective } from './directives/event-blocker.directive';
     InputComponent,
     AlertComponent,
     EventBlockerDirective,
+    PaginationComponent
     
   ],
   providers: [
