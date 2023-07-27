@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import IUser from '../models/user.model';
-import jwt_decode from 'jwt-decode';
 import { Observable, BehaviorSubject, firstValueFrom, delay, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
@@ -39,7 +38,6 @@ export class AuthService {
     private route: ActivatedRoute
   ) {
     this.isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
-    this.checkTokenExpiration();
     this.isAuthenticatedWithDelay$ = this.isAuthenticated$.pipe(delay(1000));
 
     this.router.events
@@ -114,23 +112,6 @@ export class AuthService {
   }
 
   //common functions
-  private checkTokenExpiration() {
-    const authToken = localStorage.getItem('userToken');
-    if (!authToken) {
-      this.isAuthenticatedSubject.next(false);
-      return;
-    }
-
-    const decodedToken: any = jwt_decode(authToken);
-    const tokenExpiration = decodedToken.exp;
-
-    if (Date.now() >= tokenExpiration * 1000) {
-      this.logout();
-    } else {
-      this.isAuthenticatedSubject.next(true);
-    }
-  }
-
   private setTokenToLocalStorage(token: string) {
     localStorage.setItem('userToken', token);
   }
