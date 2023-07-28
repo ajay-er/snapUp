@@ -33,6 +33,12 @@ export class DashboardComponent {
       this.users = users;
       this.loading = false;
     });
+
+    this.adminAuth.totalCount$.subscribe(total => {
+      console.log(total,'total');
+      
+      this.total = total;
+    })
   }
 
   deleteUser($event: Event, id: any) {
@@ -56,10 +62,16 @@ export class DashboardComponent {
 
   //pagination
   currentPage: number = 1;
-  total: number = 100;
-  limit: number = 10;
-  changePage(page:number) {
+  total: number = 0;
+  limit: number = 5;
+  changePage(page: number) {
+    sessionStorage.setItem('selectedPage', page.toString());
     this.currentPage = page;
+    this.adminAuth.getUsers(page,this.limit).subscribe((res:any) => {
+      this.total = res.total;
+      this.users = res.users;
+
+    })
   }
 
 }

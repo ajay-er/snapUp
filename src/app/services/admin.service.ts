@@ -3,12 +3,16 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, firstValueFrom, map } from 'rxjs';
 import IUser from '../models/user.model';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
+
+  private totalUsersCountSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  public totalCount$: Observable<number> = this.totalUsersCountSubject$.asObservable();
+
+
   private usersSubject: BehaviorSubject<IUser[]> = new BehaviorSubject<IUser[]>(
     []
   );
@@ -31,7 +35,7 @@ export class AdminService {
     this.isAdminAuthenticated$.pipe(
       map((isAdmin) => {
         if (isAdmin) {
-          this.getUsers();
+          this.getUsers2();
         }
       })
     ).subscribe();
@@ -46,7 +50,7 @@ export class AdminService {
     localStorage.setItem('adminToken', response.token);
 
     this.isAdminAuthenticatedSubject.next(true);
-    this.getUsers();
+    this.getUsers2();
     this.router.navigateByUrl('/admin/dashboard');
   }
 
@@ -65,15 +69,22 @@ export class AdminService {
 
     userData.imageUrl = 'https://api.multiavatar.com/Binx Bond.png';
 
-    this.getUsers();
+    this.getUsers2();
 
     setTimeout(() => {
       this.router.navigateByUrl('/admin/dashboard');
     }, 2000);
   }
 
-  public getUsers() {
-    this.http.get('/api/admin/getusers').subscribe((res: any) => {
+  public getUsers(page:number,limit:number) {
+    return this.http.get(`/api/admin/getusers?page=${page}&limit=${limit}`)
+  }
+
+  public getUsers2() {
+    this.http.get(`/api/admin/getusers`).subscribe((res: any) => {
+      console.log(res);
+      
+      this.totalUsersCountSubject$.next(res.total);
       return this.usersSubject.next(res.users);
     });
   }
