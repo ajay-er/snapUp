@@ -15,6 +15,7 @@ export class UpdateUserComponent {
   ) {}
 
   inSubmission = false;
+  isLoading = false;
 
   userId: string = '';
 
@@ -24,6 +25,7 @@ export class UpdateUserComponent {
   userAge = '';
 
   ngOnInit() {
+    this.isLoading = true;
     this.userId = this.router.snapshot.paramMap.get('id')!;
     this.adminAuth.getUserData(this.userId).subscribe((res) => {
       const user = res.user;
@@ -31,6 +33,7 @@ export class UpdateUserComponent {
       this.userName = user.name;
       this.userEmail = user.email;
       this.userAge = user.age;
+      this.isLoading = false;
     });
   }
 

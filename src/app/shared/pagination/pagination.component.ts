@@ -18,6 +18,7 @@ export class PaginationComponent implements OnInit{
     let selectedPage = sessionStorage.getItem('selectedPage');
     if (selectedPage) {
       this.currentPage = Number(selectedPage);
+      this.changePage.emit(this.currentPage);
     }
     this.setPagination();
   }
